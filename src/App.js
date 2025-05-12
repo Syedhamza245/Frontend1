@@ -11,8 +11,8 @@ function App() {
   return (
     <div className="App">
      <Hero/>
-     {/* <TemplateSelection/>
-     <Pricing/> */}
+     {/* <TemplateSelection/> */}
+     <Pricing/> 
     </div>
   );
 }
