@@ -1,5 +1,7 @@
 import React from "react";
 import { FaCheckCircle, FaTimesCircle, FaDollarSign } from "react-icons/fa";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 const featuresList = [
   "Public Profile",
@@ -83,6 +85,9 @@ const plans = [
 
 const Pricing = () => {
   return (
+    <>
+          <Header/>
+
     <div className="bg-white py-20 px-4 md:px-20">
       <h2 className="text-4xl font-bold text-center mb-14">Choose Your Plan</h2>
       <div className="grid md:grid-cols-3 gap-10">
@@ -133,6 +138,9 @@ const Pricing = () => {
         ))}
       </div>
     </div>
+          <Footer/>
+
+    </>
   );
 };
 

@@ -1,5 +1,7 @@
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Avatar from "../assests/avatar.jpg"
 import {
   FaInstagram,
@@ -9,6 +11,9 @@ import {
   FaYoutube,
   FaTiktok,
 } from "react-icons/fa";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import { Link } from "lucide-react";
 
 const templatesData = Array.from({ length: 12 }, (_, i) => ({
   id: i + 1,
@@ -24,7 +29,20 @@ const TemplateSelection = () => {
     setSelectedTemplate(id === selectedTemplate ? null : id);
   };
 
+
+
+  const navigate = useNavigate();
+
+const handleContinue = () => {
+  if (selectedTemplate) {
+    navigate("/pricing");
+  }
+};
+
+
   return (
+      <>
+      <Header/>
     <div
       className="min-h-screen px-6 py-10 font-poppins"
       
@@ -96,19 +114,24 @@ const TemplateSelection = () => {
 
       {/* Continue Button */}
       <div className="mt-12 text-center">
-        <button
-  disabled={!selectedTemplate}
-  className={`px-10 py-4 text-white text-lg font-semibold rounded-full transition-all duration-300 ${
-    selectedTemplate
-      ? "bg-[#FF7A00] hover:opacity-90" // more vibrant orange
-      : "bg-gray-400 cursor-not-allowed"
-  }`}
->
-  Continue with Template
-</button>
+     <button
+    onClick={handleContinue}
+    disabled={!selectedTemplate}
+    className={`px-10 py-4 text-white text-lg font-semibold rounded-full transition-all duration-300 ${
+      selectedTemplate
+        ? "bg-[#FF7A00] hover:opacity-90"
+        : "bg-gray-400 cursor-not-allowed"
+    }`}
+  >
+    Continue with Template
+  </button>
+
+
 
       </div>
     </div>
+    <Footer/>
+  </>
   );
 };
 

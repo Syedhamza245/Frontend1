@@ -4,16 +4,18 @@ import '@fontsource/poppins'; // Defaults to weight 400
 import Hero from './pages/Hero';
 import TemplateSelection from './pages/TemplateSelection ';
 import Pricing from './pages/Pricing';
+import { Routes, Route } from "react-router-dom";
+
 
 
 
 function App() {
   return (
-    <div className="App">
-     <Hero/>
-     {/* <TemplateSelection/> */}
-     <Pricing/> 
-    </div>
+    <Routes>
+      <Route path="/" element={<Hero />} />
+      <Route path="/templates" element={<TemplateSelection />} />
+      <Route path="/pricing" element={<Pricing />} />
+    </Routes>
   );
 }
 

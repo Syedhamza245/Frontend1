@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { Link } from "react-router-dom";
+
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -8,12 +10,14 @@ const Header = () => {
 <nav className="bg-gradient-to-r from-[#e6f0fa] to-[#ffffff] px-6 py-4 shadow-md font-poppins">
 <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left - Logo */}
-        <div className="text-ramp-blue-700 text-2xl font-bold">MyApp</div>
+<Link to="/" className="text-ramp-blue-700 text-2xl font-bold">
+  MyApp
+</Link>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex space-x-6 items-center">
-          <a href="#" className="text-ramp-blue-700 hover:text-ramp-blue-700">Templates</a>
-          <a href="#" className="text-ramp-blue-700 hover:text-ramp-blue-700">Pricing</a>
+          <Link to="/templates" className="text-ramp-blue-700 hover:text-ramp-blue-700">Templates</Link>
+          <Link to="/pricing" className="text-ramp-blue-700 hover:text-ramp-blue-700">Pricing</Link>
           <button className="bg-ramp-purple-600 text-white px-4 py-2 rounded-md hover:opacity-90">Signup</button>
           <button className="bg-ramp-purple-600 text-white px-4 py-2 rounded-md hover:opacity-90">Login</button>
         </div>
