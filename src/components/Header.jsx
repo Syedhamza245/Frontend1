@@ -17,8 +17,11 @@ const Header = () => {
         <div className="hidden md:flex space-x-6 items-center">
           <Link to="/templates" className="text-ramp-blue-700 hover:text-ramp-blue-700">Templates</Link>
           <Link to="/pricing" className="text-ramp-blue-700 hover:text-ramp-blue-700">Pricing</Link>
-          <button className="bg-ramp-purple-600 text-white px-4 py-2 rounded-md hover:opacity-90">Signup</button>
-          {/* <button className="bg-ramp-purple-600 text-white px-4 py-2 rounded-md hover:opacity-90">Login</button> */}
+<Link to="/signup">
+  <button className="bg-ramp-purple-600 text-white px-4 py-2 rounded-md hover:opacity-90">
+    Signup
+  </button>
+</Link>          {/* <button className="bg-ramp-purple-600 text-white px-4 py-2 rounded-md hover:opacity-90">Login</button> */}
         </div>
 
         {/* Mobile Icon */}
