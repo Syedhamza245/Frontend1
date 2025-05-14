@@ -17,11 +17,11 @@ const Header = () => {
         <div className="hidden md:flex space-x-6 items-center">
           <Link to="/templates" className="text-ramp-blue-700 hover:text-ramp-blue-700">Templates</Link>
           <Link to="/pricing" className="text-ramp-blue-700 hover:text-ramp-blue-700">Pricing</Link>
-<Link to="/signup">
-  <button className="bg-ramp-purple-600 text-white px-4 py-2 rounded-md hover:opacity-90">
-    Signup
-  </button>
-</Link>          {/* <button className="bg-ramp-purple-600 text-white px-4 py-2 rounded-md hover:opacity-90">Login</button> */}
+          <Link to="/signup">
+            <button className="bg-ramp-purple-600 text-white px-4 py-2 rounded-md hover:opacity-90">
+              Signup
+            </button>
+          </Link>
         </div>
 
         {/* Mobile Icon */}
@@ -41,8 +41,11 @@ const Header = () => {
           <Link to="/pricing" onClick={() => setOpen(false)}>
             Pricing
           </Link>
-          <button className="bg-ramp-purple-600 text-white px-4 py-2 rounded-md">Signup</button>
-          {/* <button className="bg-ramp-purple-600 text-white px-4 py-2 rounded-md">Login</button> */}
+          <Link to="/signup" onClick={() => setOpen(false)}>
+            <button className="bg-ramp-purple-600 text-white px-4 py-2 rounded-md">
+              Signup
+            </button>
+          </Link>
         </div>
       )}
     </nav>
