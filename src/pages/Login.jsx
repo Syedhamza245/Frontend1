@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import { FcGoogle } from "react-icons/fc";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import signup from "../assests/signup.jpg";
+import loginImg from "../assests/signup.jpg"; // same image for consistency
 import { Link } from "react-router-dom";
 
-const Signup = () => {
+const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-
   const togglePassword = () => setShowPassword(!showPassword);
 
   return (
@@ -19,8 +19,8 @@ const Signup = () => {
 
         {/* Centered Content */}
         <div className="flex flex-col justify-center h-full px-10 mt-20 md:mt-0">
-          <h2 className="text-3xl font-semibold text-gray-800 mb-2">Let’s get started</h2>
-          <p className="text-gray-600 mb-8">Signup for free</p>
+          <h2 className="text-3xl font-semibold text-gray-800 mb-2">Welcome Back</h2>
+          <p className="text-gray-600 mb-8">Login to your account</p>
 
           {/* Form */}
           <form className="flex flex-col space-y-4">
@@ -45,31 +45,41 @@ const Signup = () => {
               </span>
             </div>
 
+            {/* Forgot Password Link */}
+            <div className="text-right">
+              <Link to="/forgot-password" className="text-sm text-blue-600 hover:underline">
+                Forgot password?
+              </Link>
+            </div>
+
             <button
               type="submit"
               className="bg-[#A78BFA] text-white py-3 rounded-md font-medium hover:opacity-90 transition-all"
             >
-              Sign Up
+              Login
             </button>
           </form>
 
-          {/* Already have an account link */}
-          <div className="text-center mt-6">
-            <p className="text-sm text-gray-600">
-              Already have an account?{" "}
-              <Link to="/login" className="text-blue-600 hover:underline">
-                Login
-              </Link>
-            </p>
+          {/* Divider */}
+          <div className="flex items-center my-6">
+            <hr className="flex-grow border-gray-300" />
+            <span className="px-4 text-gray-400">or</span>
+            <hr className="flex-grow border-gray-300" />
           </div>
+
+          {/* Google Login */}
+          <button className="flex items-center justify-center border border-gray-300 py-3 rounded-md hover:bg-gray-100 transition-all">
+            <FcGoogle size={22} className="mr-3" />
+            Login with Google
+          </button>
         </div>
       </div>
 
       {/* Right Side - Image */}
       <div className="hidden md:block w-1/2">
         <img
-          src={signup}
-          alt="Signup Visual"
+          src={loginImg}
+          alt="Login Visual"
           className="h-full w-full object-cover"
         />
       </div>
@@ -77,4 +87,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;
