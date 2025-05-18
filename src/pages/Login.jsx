@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FcGoogle } from "react-icons/fc";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import loginImg from "../assests/signup.jpg"; // same image for consistency
 import { Link } from "react-router-dom";
@@ -59,19 +58,6 @@ const Login = () => {
               Login
             </button>
           </form>
-
-          {/* Divider */}
-          <div className="flex items-center my-6">
-            <hr className="flex-grow border-gray-300" />
-            <span className="px-4 text-gray-400">or</span>
-            <hr className="flex-grow border-gray-300" />
-          </div>
-
-          {/* Google Login */}
-          <button className="flex items-center justify-center border border-gray-300 py-3 rounded-md hover:bg-gray-100 transition-all">
-            <FcGoogle size={22} className="mr-3" />
-            Login with Google
-          </button>
         </div>
       </div>
 
