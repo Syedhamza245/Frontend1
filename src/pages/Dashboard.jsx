@@ -1,3 +1,5 @@
+
+
 import React, { useState } from "react";
 import {
   FaLink,
@@ -9,17 +11,24 @@ import {
   FaTiktok,
   FaTrash,
   FaShareAlt,
-  FaLock
+  FaLock,
+  FaEdit
 } from "react-icons/fa";
 import { RiThreadsLine } from "react-icons/ri";
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer
+} from "recharts";
 import profile from "../assests/hero-image.jpg";
 import banner from "../assests/signup.jpg";
 import Footer from "../components/Footer";
-import Header from "../components/Header";
 import CustomHeader from "../components/CustomHeader";
 
-// Dummy data for analytics
 const dummyData = [
   { day: "Mon", clicks: 50, views: 120 },
   { day: "Tue", clicks: 70, views: 160 },
@@ -27,14 +36,44 @@ const dummyData = [
   { day: "Thu", clicks: 40, views: 100 },
   { day: "Fri", clicks: 100, views: 220 },
   { day: "Sat", clicks: 80, views: 190 },
-  { day: "Sun", clicks: 60, views: 150 },
+  { day: "Sun", clicks: 60, views: 150 }
 ];
 
 const Dashboard = () => {
   const [selectedTab, setSelectedTab] = useState("Links");
+  const [profileImage, setProfileImage] = useState(profile);
+  const [tagline, setTagline] = useState("Your profile tagline here");
+  const [isEditingTagline, setIsEditingTagline] = useState(false);
+  const [name, setName] = useState("John Doe");
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [links, setLinks] = useState([
+    { name: "Instagram", url: "https://link.to/instagram" },
+    { name: "Facebook", url: "https://link.to/facebook" },
+    { name: "Threads", url: "https://link.to/threads" },
+    { name: "TikTok", url: "https://link.to/tiktok" }
+  ]);
+  const [newLinkName, setNewLinkName] = useState("");
+  const [newLinkUrl, setNewLinkUrl] = useState("");
 
-  const handleTabClick = (tab) => {
-    setSelectedTab(tab);
+  const handleTabClick = (tab) => setSelectedTab(tab);
+
+  const handleProfileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) setProfileImage(URL.createObjectURL(file));
+  };
+
+  const handleTaglineSave = () => setIsEditingTagline(false);
+  const handleNameSave = () => setIsEditingName(false);
+
+  const handleDeleteLink = (index) => {
+    setLinks((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleAddLink = () => {
+    if (!newLinkName.trim() || !newLinkUrl.trim()) return;
+    setLinks((prev) => [...prev, { name: newLinkName.trim(), url: newLinkUrl.trim() }]);
+    setNewLinkName("");
+    setNewLinkUrl("");
   };
 
   const AppearanceContent = () => (
@@ -84,7 +123,8 @@ const Dashboard = () => {
     </div>
   );
 
-  const AnalyticsContent = () => (
+
+const AnalyticsContent = () => (
     <div className="w-full px-6 py-6">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">📊 Analytics Overview</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
@@ -125,96 +165,149 @@ const Dashboard = () => {
   return (
     <>
       <CustomHeader />
-      <div className="min-h-screen flex font-poppins bg-[#f5f7fa]">
+      <div className="min-h-screen flex bg-gray-50">
         {/* Sidebar */}
-        <div className="w-1/5 bg-white shadow-lg px-6 py-10 space-y-8">
-          <h1 className="text-2xl font-bold text-[#4A4A4A] mb-6">MyApp</h1>
-          <div className="space-y-6">
+        <aside className="w-64 bg-white shadow-lg p-6">
+          <h1 className="text-2xl font-bold text-gray-800 mb-8">MyApp</h1>
+          <nav className="space-y-4">
             {["Links", "Appearance", "Analytics", "Settings"].map((tab) => (
-              <div
+              <button
                 key={tab}
-                className={`flex items-center gap-3 cursor-pointer ${
-                  selectedTab === tab ? "text-[#A78BFA]" : "text-gray-700 hover:text-[#A78BFA]"
-                }`}
                 onClick={() => handleTabClick(tab)}
+                className={`flex items-center w-full gap-3 px-4 py-2 rounded-lg transition ${
+                  selectedTab === tab
+                    ? "bg-indigo-100 text-indigo-600"
+                    : "text-gray-600 hover:bg-gray-100"
+                }`}
               >
                 {tab === "Links" && <FaLink />}
                 {tab === "Appearance" && <FaPalette />}
                 {tab === "Analytics" && <FaChartBar />}
                 {tab === "Settings" && <FaCog />}
                 <span>{tab}</span>
-              </div>
+              </button>
             ))}
-          </div>
-        </div>
+          </nav>
+        </aside>
 
-        {/* Main Content */}
-        <div className="w-4/5 px-10 py-8 bg-[#f0f2f5]">
-          {selectedTab === "Links" ? (
-            <div className="flex flex-col lg:flex-row gap-8">
+        {/* Main content */}
+        <main className="flex-1 p-8">
+          {selectedTab === "Links" && (
+            <section className="space-y-8">
               {/* Profile Card */}
-              <div className="w-full lg:w-1/3 bg-white rounded-2xl shadow-md p-6 text-center">
-                <img src={profile} alt="Profile" className="w-20 h-20 rounded-full mx-auto mb-4" />
-                <p className="text-gray-700 font-medium mb-2">This is a sample profile tagline</p>
-                <div className="flex justify-center space-x-4 mb-4">
-                  <FaFacebookF className="text-[#4267B2]" />
-                  <FaInstagram className="text-[#C13584]" />
-                  <RiThreadsLine className="text-black" />
-                  <FaTiktok className="text-black" />
-                </div>
-                <img src={banner} alt="Banner" className="rounded-lg mb-4 w-full h-32 object-cover" />
-                <div className="grid grid-cols-2 gap-3">
-                  <button className="bg-[#4267B2] text-white py-2 rounded">Facebook</button>
-                  <button className="bg-[#C13584] text-white py-2 rounded">Instagram</button>
-                  <button className="bg-black text-white py-2 rounded">Threads</button>
-                  <button className="bg-black text-white py-2 rounded">TikTok</button>
-                </div>
+              <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-md p-8 text-center relative">
+                <label className="inline-block relative mx-auto">
+                  <img
+                    src={profileImage}
+                    alt="Profile"
+                    className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-indigo-200"
+                  />
+                  <div className="absolute bottom-3 right-1 bg-white p-2 rounded-full shadow">
+                    <FaEdit className="text-gray-600 text-lg" />
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleProfileChange}
+                    className="hidden"
+                  />
+                </label>
+
+                {isEditingName ? (
+                  <input
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    onBlur={handleNameSave}
+                    className="mt-4 text-xl font-semibold border-b-2 border-indigo-300 focus:outline-none"
+                    autoFocus
+                  />
+                ) : (
+                  <h2 className="mt-4 text-2xl font-semibold text-gray-800 flex items-center justify-center gap-2 cursor-pointer"
+                    onClick={() => setIsEditingName(true)}>
+                    {name}
+                    <FaEdit className="text-gray-400" />
+                  </h2>
+                )}
+
+                {isEditingTagline ? (
+                  <input
+                    value={tagline}
+                    onChange={(e) => setTagline(e.target.value)}
+                    onBlur={handleTaglineSave}
+                    className="mt-2 text-sm text-gray-600 border-b border-gray-300 focus:outline-none"
+                    autoFocus
+                  />
+                ) : (
+                  <p
+                    className="mt-2 text-gray-600 cursor-pointer hover:text-indigo-600"
+                    onClick={() => setIsEditingTagline(true)}
+                  >
+                    {tagline} <FaEdit className="inline text-gray-400" />
+                  </p>
+                )}
               </div>
 
-              {/* Info & Links */}
-              <div className="w-full lg:w-2/3 space-y-6">
-                <div className="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition">
-                  <h2 className="text-xl font-semibold text-[#333] mb-4 border-b pb-2">
-                    📄 Basic Information
-                  </h2>
-                  <div className="space-y-2 text-gray-700">
-                    <p><strong>Name:</strong> John Doe</p>
-                    <p><strong>Email:</strong> john@example.com</p>
-                    <p><strong>Plan:</strong> Free</p>
-                  </div>
-                  <button className="mt-4 bg-[#A78BFA] text-white px-5 py-2 rounded-lg hover:bg-[#8b6efb] transition">
-                    + Add Links
+              {/* Add Link Form */}
+              <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-md p-6">
+                <h3 className="text-xl font-semibold text-gray-800 mb-4">➕ Add New Link</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <input
+                    type="text"
+                    placeholder="Link Name"
+                    value={newLinkName}
+                    onChange={(e) => setNewLinkName(e.target.value)}
+                    className="border border-gray-300 rounded px-4 py-2 focus:ring-2 focus:ring-indigo-200"
+                  />
+                  <input
+                    type="text"
+                    placeholder="URL (https://...)"
+                    value={newLinkUrl}
+                    onChange={(e) => setNewLinkUrl(e.target.value)}
+                    className="border border-gray-300 rounded px-4 py-2 focus:ring-2 focus:ring-indigo-200"
+                  />
+                  <button
+                    onClick={handleAddLink}
+                    className="bg-indigo-600 text-white rounded px-6 py-2 hover:bg-indigo-700 transition"
+                  >
+                    Add Link
                   </button>
                 </div>
+              </div>
 
-                <div className="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition">
-                  <h3 className="text-xl font-semibold text-[#333] mb-4 border-b pb-2">🔗 Published Links</h3>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    {["Instagram", "Facebook", "Threads", "TikTok"].map((platform, index) => (
-                      <div key={index} className="bg-[#fdfdfd] shadow-inner rounded-xl p-4 flex justify-between items-start hover:bg-[#fafafa] transition">
-                        <div>
-                          <h4 className="text-lg font-semibold text-gray-800">{platform}</h4>
-                          <p className="text-blue-600 text-sm truncate">https://link.to/{platform.toLowerCase()}</p>
-                          <p className="text-gray-500 text-xs mt-1">10 clicks</p>
-                        </div>
-                        <div className="flex gap-2 mt-1">
-                          <button className="text-red-500 hover:text-red-700"><FaTrash /></button>
-                          <button className="text-gray-600 hover:text-gray-800"><FaShareAlt /></button>
-                        </div>
+              {/* Published Links */}
+              <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-md p-6">
+                <h3 className="text-xl font-semibold text-gray-800 mb-4">🔗 Your Links</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {links.map((link, idx) => (
+                    <div key={idx} className="flex items-center justify-between p-4 bg-indigo-50 rounded-lg">
+                      <div>
+                        <p className="font-medium text-gray-800">{link.name}</p>
+                        <a
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-indigo-600 hover:underline"
+                        >
+                          {link.url}
+                        </a>
                       </div>
-                    ))}
-                  </div>
+                      <div className="flex gap-3 text-gray-600">
+                        <FaShareAlt className="cursor-pointer hover:text-indigo-600" />
+                        <FaTrash className="cursor-pointer hover:text-red-500" onClick={() => handleDeleteLink(idx)} />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
-          ) : selectedTab === "Appearance" ? (
-            <AppearanceContent />
-          ) : selectedTab === "Analytics" ? (
-            <AnalyticsContent />
-          ) : (
-            <div className="text-center text-gray-500 mt-10">⚙️ Settings Page Coming Soon</div>
+            </section>
           )}
-        </div>
+
+          {selectedTab === "Appearance" && <AppearanceContent />}
+          {selectedTab === "Analytics" && <AnalyticsContent />}
+          {selectedTab === "Settings" && (
+            <div className="text-center text-gray-600 mt-20">⚙️ Settings are coming soon!</div>
+          )}
+        </main>
       </div>
       <Footer />
     </>
