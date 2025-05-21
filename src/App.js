@@ -9,6 +9,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ForgotPassword from './pages/ForgotPassword';
+import MultiStepSlider from './pages/MultiStepSlider';
 
 
 
@@ -23,6 +24,8 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />}/>
       <Route path="/forgot-password" element={<ForgotPassword />}/>
+            <Route path="/MultiStepSlider" element={<MultiStepSlider />}/>
+
     </Routes>
   );
 }
