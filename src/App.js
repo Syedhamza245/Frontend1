@@ -10,6 +10,8 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ForgotPassword from './pages/ForgotPassword';
 import MultiStepSlider from './pages/MultiStepSlider';
+// import Appearance from './pages/Appearence';
+// import Analytics from './pages/Analytics';
 
 
 
@@ -24,7 +26,9 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />}/>
       <Route path="/forgot-password" element={<ForgotPassword />}/>
-            <Route path="/MultiStepSlider" element={<MultiStepSlider />}/>
+      <Route path="/MultiStepSlider" element={<MultiStepSlider />}/>
+      {/* <Route path="/Appearence" element={<Appearance />}/> */}
+      {/* <Route path="/Analytics" element={<Analytics />}/> */}
 
     </Routes>
   );

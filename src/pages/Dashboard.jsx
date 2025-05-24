@@ -316,9 +316,6 @@
 
 // export default Dashboard;
 
-
-
-
 import React, { useState } from "react";
 import {
   FaFacebookF,
@@ -330,20 +327,31 @@ import {
   FaChartBar,
   FaCog
 } from "react-icons/fa";
+import { MdOutlineDelete, MdOutlineInsertLink } from "react-icons/md";
+import Appearence from "../components/Appearence"
+import Analytics from "../components/Analytics"
+
 import CustomHeader from "../components/CustomHeader";
 
-import { MdOutlineDelete, MdOutlineInsertLink } from "react-icons/md";
-
 export default function Dashboard() {
+  const [activeSection, setActiveSection] = useState("Links");
+
   const [profile, setProfile] = useState({
     name: "@Justin",
     role: "Influencer youtuber content creater",
-    image: "https://static-00.iconduck.com/assets.00/avatar-default-icon-1024x1024-dvpl2mz1.png",
-    banner: "https://img.freepik.com/premium-vector/energetic-businesswoman-running-with-banner-avatar-character_1339081-474.jpg",
+    image:
+      "https://static-00.iconduck.com/assets.00/avatar-default-icon-1024x1024-dvpl2mz1.png",
+    banner:
+      "https://img.freepik.com/premium-vector/energetic-businesswoman-running-with-banner-avatar-character_1339081-474.jpg",
   });
 
   const [links, setLinks] = useState([
-    { title: "Youtube", url: "http://justin@vlogs.com", clicks: 12, enabled: true },
+    {
+      title: "Youtube",
+      url: "http://justin@vlogs.com",
+      clicks: 12,
+      enabled: true,
+    },
     { title: "Spotify", url: "http://spotify.com/justin", clicks: 8, enabled: true },
   ]);
 
@@ -381,153 +389,231 @@ export default function Dashboard() {
   };
 
   const addLink = () => {
-    setLinks([...links, { title: "New Link", url: "", clicks: 0, enabled: true }]);
+    setLinks([
+      ...links,
+      { title: "New Link", url: "", clicks: 0, enabled: true },
+    ]);
   };
 
-  return (
+  // COMPONENTS for different sections
+  const LinksSection = () => (
     <>
-     <CustomHeader />
-    <div className="flex h-screen font-sans">
-      {/* Sidebar */}
-      <aside className="w-1/5 bg-[#e9edfb] p-6 space-y-6 text-lg">
-        <div className="text-purple-600 font-semibold flex items-center space-x-2">
-          <FaLink /> <span>Links</span>
-        </div>
-        <div className="text-gray-600 flex items-center space-x-2">
-          <FaPaintBrush /> <span>Appearance</span>
-        </div>
-        <div className="text-gray-600 flex items-center space-x-2">
-          <FaChartBar /> <span>Analytics</span>
-        </div>
-        <div className="text-gray-600 flex items-center space-x-2">
-          <FaCog /> <span>Settings</span>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 p-6 overflow-auto">
-        {/* Top Profile Section */}
-        <section className="bg-[#3e0e69] text-white p-6 rounded-xl mb-6">
-          <div className="flex items-center space-x-4">
-            <div className="relative">
-              <img src={profile.image} alt="Profile" className="w-16 h-16 rounded-full" />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleImageUpload(e, "image")}
-                className="absolute top-0 left-0 w-16 h-16 opacity-0 cursor-pointer"
-              />
-            </div>
-            <div className="flex-1">
-              <input
-                type="text"
-                name="name"
-                value={profile.name}
-                onChange={handleProfileChange}
-                className="bg-[#5d2890] p-1 rounded w-full"
-              />
-              <input
-                type="text"
-                name="role"
-                value={profile.role}
-                onChange={handleProfileChange}
-                className="bg-[#5d2890] p-1 rounded w-full mt-2"
-              />
-              <div className="flex space-x-2 mt-2">
-                <button className="bg-[#5d2890] px-2 py-1 rounded text-sm">Add</button>
-                <button className="bg-[#5d2890] px-2 py-1 rounded text-sm">Add</button>
-                <button className="bg-[#5d2890] px-2 py-1 rounded text-sm">Add</button>
-                <button className="bg-[#5d2890] px-2 py-1 rounded text-sm">+</button>
-              </div>
-            </div>
-          </div>
-          <div className="relative mt-4">
-            <img src={profile.banner} alt="Banner" className="w-full h-32 object-cover rounded" />
+      <section className="bg-[#3e0e69] text-white p-6 rounded-xl mb-6">
+        <div className="flex items-center space-x-4">
+          <div className="relative">
+            <img
+              src={profile.image}
+              alt="Profile"
+              className="w-16 h-16 rounded-full"
+            />
             <input
               type="file"
               accept="image/*"
-              onChange={(e) => handleImageUpload(e, "banner")}
-              className="absolute top-0 left-0 w-full h-32 opacity-0 cursor-pointer"
+              onChange={(e) => handleImageUpload(e, "image")}
+              className="absolute top-0 left-0 w-16 h-16 opacity-0 cursor-pointer"
             />
           </div>
-          <button
-            onClick={addLink}
-            className="bg-[#a75cf8] text-white py-2 px-6 rounded-full mt-4"
-          >
-            Add links
-          </button>
-        </section>
-
-        {/* Links Section */}
-        <section>
-          <h2 className="text-xl font-bold mb-4">Published links</h2>
-          {links.map((link, index) => (
-            <div key={index} className="bg-[#e3edf7] p-4 rounded mb-4 flex justify-between items-center">
-              <div className="w-4/5">
-                <input
-                  type="text"
-                  value={link.title}
-                  onChange={(e) => handleLinkChange(index, "title", e.target.value)}
-                  className="block mb-2 w-full rounded p-1 text-lg font-semibold"
-                />
-                <input
-                  type="text"
-                  value={link.url}
-                  onChange={(e) => handleLinkChange(index, "url", e.target.value)}
-                  className="block w-full rounded p-1 text-sm"
-                />
-                <p className="text-purple-700 mt-1 text-sm">{link.clicks} clicks</p>
-              </div>
-              <div className="flex items-center space-x-2">
-                <button><MdOutlineInsertLink /></button>
-                <button onClick={() => deleteLink(index)}><MdOutlineDelete /></button>
-                <label className="switch">
-                  <input type="checkbox" checked={link.enabled} onChange={() => toggleLink(index)} />
-                  <span className="slider"></span>
-                </label>
-              </div>
+          <div className="flex-1">
+            <input
+              type="text"
+              name="name"
+              value={profile.name}
+              onChange={handleProfileChange}
+              className="bg-[#5d2890] p-1 rounded w-full"
+            />
+            <input
+              type="text"
+              name="role"
+              value={profile.role}
+              onChange={handleProfileChange}
+              className="bg-[#5d2890] p-1 rounded w-full mt-2"
+            />
+            <div className="flex space-x-2 mt-2">
+              <button className="bg-[#5d2890] px-2 py-1 rounded text-sm">Add</button>
+              <button className="bg-[#5d2890] px-2 py-1 rounded text-sm">Add</button>
+              <button className="bg-[#5d2890] px-2 py-1 rounded text-sm">Add</button>
+              <button className="bg-[#5d2890] px-2 py-1 rounded text-sm">+</button>
             </div>
-          ))}
-        </section>
-      </main>
-
-      {/* Right Preview Panel */}
-      <aside className="w-1/4 bg-gradient-to-b from-[#0c1e40] to-[#0d64c2] text-white p-6 rounded-xl overflow-auto">
-        <div className="text-center">
-          <img src={profile.image} alt="Profile" className="w-16 h-16 rounded-full mx-auto mb-2" />
-          <h3 className="text-lg font-semibold">{profile.name}</h3>
-          <p className="text-sm mb-2">{profile.role}</p>
-
-          <div className="flex justify-center space-x-4 text-xl mb-4">
-            <FaFacebookF />
-            <FaInstagram />
-            <FaSpotify />
-            <FaTiktok />
           </div>
-
-          <img src={profile.banner} alt="Banner" className="rounded-lg mb-4" />
-          <p className="mb-4">Justin website</p>
-
-          {links.map((link, index) => (
-            link.enabled && (
-              <button
-                key={index}
-                className="block w-full bg-orange-400 text-black rounded px-4 py-2 mb-2 flex items-center justify-center space-x-2"
-              >
-                <img
-                  src="https://via.placeholder.com/20"
-                  alt="icon"
-                  className="rounded-full"
-                />
-                <span>{link.title}</span>
-              </button>
-            )
-          ))}
-
-          <button className="mt-4 underline">MyApp</button>
         </div>
-      </aside>
+        <div className="relative mt-4">
+          <img
+            src={profile.banner}
+            alt="Banner"
+            className="w-full h-32 object-cover rounded"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleImageUpload(e, "banner")}
+            className="absolute top-0 left-0 w-full h-32 opacity-0 cursor-pointer"
+          />
+        </div>
+        <button
+          onClick={addLink}
+          className="bg-[#a75cf8] text-white py-2 px-6 rounded-full mt-4"
+        >
+          Add links
+        </button>
+      </section>
+
+      <section>
+        <h2 className="text-xl font-bold mb-4">Published links</h2>
+        {links.map((link, index) => (
+          <div
+            key={index}
+            className="bg-[#e3edf7] p-4 rounded mb-4 flex justify-between items-center"
+          >
+            <div className="w-4/5">
+              <input
+                type="text"
+                value={link.title}
+                onChange={(e) =>
+                  handleLinkChange(index, "title", e.target.value)
+                }
+                className="block mb-2 w-full rounded p-1 text-lg font-semibold"
+              />
+              <input
+                type="text"
+                value={link.url}
+                onChange={(e) => handleLinkChange(index, "url", e.target.value)}
+                className="block w-full rounded p-1 text-sm"
+              />
+              <p className="text-purple-700 mt-1 text-sm">{link.clicks} clicks</p>
+            </div>
+            <div className="flex items-center space-x-2">
+              <button>
+                <MdOutlineInsertLink />
+              </button>
+              <button onClick={() => deleteLink(index)}>
+                <MdOutlineDelete />
+              </button>
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  checked={link.enabled}
+                  onChange={() => toggleLink(index)}
+                />
+                <span className="slider"></span>
+              </label>
+            </div>
+          </div>
+        ))}
+      </section>
+    </>
+  );
+
+  const AppearanceSection = () => (
+    <div>
+      <Appearence />
+      {/* <h2 className="text-xl font-bold mb-4">Appearance Settings</h2>
+      <p>Customize theme, colors, fonts, and styles here.</p> */}
     </div>
+  );
+
+  const AnalyticsSection = () => (
+    <div>
+     <Analytics />
+    </div>
+  );
+
+  const SettingsSection = () => (
+    <div>
+      <h2 className="text-xl font-bold mb-4">General Settings</h2>
+      <p>Change preferences, account settings, and privacy.</p>
+    </div>
+  );
+
+  return (
+    <>
+      <CustomHeader />
+      <div className="flex h-screen font-sans">
+        {/* Sidebar */}
+        <aside className="w-1/5 bg-[#e9edfb] p-6 space-y-6 text-lg">
+          <div
+            className={`cursor-pointer flex items-center space-x-2 ${
+              activeSection === "Links" ? "text-purple-600 font-semibold" : "text-gray-600"
+            }`}
+            onClick={() => setActiveSection("Links")}
+          >
+            <FaLink /> <span>Links</span>
+          </div>
+          <div
+            className={`cursor-pointer flex items-center space-x-2 ${
+              activeSection === "Appearance" ? "text-purple-600 font-semibold" : "text-gray-600"
+            }`}
+            onClick={() => setActiveSection("Appearance")}
+          >
+            <FaPaintBrush /> <span>Appearance</span>
+          </div>
+          <div
+            className={`cursor-pointer flex items-center space-x-2 ${
+              activeSection === "Analytics" ? "text-purple-600 font-semibold" : "text-gray-600"
+            }`}
+            onClick={() => setActiveSection("Analytics")}
+          >
+            <FaChartBar /> <span>Analytics</span>
+          </div>
+          <div
+            className={`cursor-pointer flex items-center space-x-2 ${
+              activeSection === "Settings" ? "text-purple-600 font-semibold" : "text-gray-600"
+            }`}
+            onClick={() => setActiveSection("Settings")}
+          >
+            <FaCog /> <span>Settings</span>
+          </div>
+        </aside>
+
+        {/* Main Content */}
+        <main className="flex-1 p-6 overflow-auto">
+          {activeSection === "Links" && <LinksSection />}
+          {activeSection === "Appearance" && <AppearanceSection />}
+          {activeSection === "Analytics" && <AnalyticsSection />}
+          {activeSection === "Settings" && <SettingsSection />}
+        </main>
+
+        {/* Right Preview Panel */}
+        <aside className="w-1/4 bg-gradient-to-b from-[#0c1e40] to-[#0d64c2] text-white p-6 rounded-xl overflow-auto">
+          <div className="text-center">
+            <img
+              src={profile.image}
+              alt="Profile"
+              className="w-16 h-16 rounded-full mx-auto mb-2"
+            />
+            <h3 className="text-lg font-semibold">{profile.name}</h3>
+            <p className="text-sm mb-2">{profile.role}</p>
+
+            <div className="flex justify-center space-x-4 text-xl mb-4">
+              <FaFacebookF />
+              <FaInstagram />
+              <FaSpotify />
+              <FaTiktok />
+            </div>
+
+            <img src={profile.banner} alt="Banner" className="rounded-lg mb-4" />
+            <p className="mb-4">Justin website</p>
+
+            {links.map(
+              (link, index) =>
+                link.enabled && (
+                  <button
+                    key={index}
+                    className="block w-full bg-orange-400 text-black rounded px-4 py-2 mb-2 flex items-center justify-center space-x-2"
+                  >
+                    <img
+                      src="https://via.placeholder.com/20"
+                      alt="icon"
+                      className="rounded-full"
+                    />
+                    <span>{link.title}</span>
+                  </button>
+                )
+            )}
+
+            <button className="mt-4 underline">MyApp</button>
+          </div>
+        </aside>
+      </div>
     </>
   );
 }
